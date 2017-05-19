@@ -24,17 +24,18 @@ RUN apt-get update \
     && rm -rf /opt/android-sdk-tools.zip \
     && mkdir /opt/android-sdk \
     && mv -v /opt/tools /opt/android-sdk \ 
-    && chmod -R 755 /opt/android-sdk \
-    && chown -R jenkins:jenkins /opt/android-sdk \
     && touch /etc/profile.d/android.sh \
     && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "platform-tools" \
     && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "platforms;android-19" \
-    && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "build-tools;25.0.3" \
+    && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "platforms;android-23" \
+    && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "build-tools;25.0.0" \
     && wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip -O /opt/android-ndk.zip \
     && unzip /opt/android-ndk.zip -d /opt \
+    && rm -rf /opt/android-ndk.zip \
+    && chmod -R 755 /opt/android-sdk \
+    && chown -R jenkins:jenkins /opt/android-sdk \
     && chmod -R 755 /opt/android-ndk-r10e \
-    && chown -R jenkins:jenkins /opt/android-ndk-r10e \
-    && rm -rf /opt/android-ndk.zip
+    && chown -R jenkins:jenkins /opt/android-ndk-r10e
 
 COPY docker-entrypoint.sh /
 
