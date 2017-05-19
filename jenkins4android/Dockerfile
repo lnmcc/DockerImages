@@ -1,11 +1,13 @@
 FROM jenkins
 
 ENV ANDROID_SDK=/opt/android-sdk
+ENV ANDROID_HOME=$ANDROID_SDK
 ENV PATH=$ANDROID_SDK/tools:$PATH
 ENV PATH=$ANDROID_SDK/tools/bin:$PATH
 ENV PATH=$ANDROID_SDK/platform-tools:$PATH
 
 ENV ANDROID_NDK=/opt/android-ndk-r10e
+ENV ANDROID_NDK_HOME=$ANDROID_NDK
 ENV PATH=$ANDROID_NDK:$PATH
 
 USER root
@@ -23,6 +25,7 @@ RUN apt-get update \
     && mkdir /opt/android-sdk \
     && mv -v /opt/tools /opt/android-sdk \ 
     && chmod -R 755 /opt/android-sdk \
+    && chown -R jenkins:jenkins /opt/android-sdk \
     && touch /etc/profile.d/android.sh \
     && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "platform-tools" \
     && echo yes | /opt/android-sdk/tools/bin/sdkmanager  "platforms;android-19" \
@@ -30,6 +33,7 @@ RUN apt-get update \
     && wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip -O /opt/android-ndk.zip \
     && unzip /opt/android-ndk.zip -d /opt \
     && chmod -R 755 /opt/android-ndk-r10e \
+    && chown -R jenkins:jenkins /opt/android-ndk-r10e \
     && rm -rf /opt/android-ndk.zip
 
 COPY docker-entrypoint.sh /
