@@ -34,7 +34,7 @@ COPY gerrit-start.sh /
 COPY start-apache.sh /docker-entrypoint-init.d
 
 RUN rm -f /etc/apache2/sites-available/000-default.conf
-COPY 000-default.conf  /etc/apache2/sites-available
+#COPY 000-default.conf  /etc/apache2/sites-available
 
 RUN chmod +x /gerrit-start.sh \
     && chmod +x /gerrit-entrypoint.sh \
@@ -58,6 +58,7 @@ RUN curl -fSsL \
 
 
 VOLUME $GERRIT_SITE
+VOLUME /etc/apache2/sites-available
 
 ENTRYPOINT ["/gerrit-entrypoint.sh"]
 
